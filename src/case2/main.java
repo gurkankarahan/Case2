@@ -26,8 +26,6 @@ public class main {
         Coupon cp1 = new Coupon(550,20,DiscountType.RATE);
 
         cart.applyCoupon(cp1);
-        HashMap<Product, Integer> asd = cart.getAddedProducts();
-        System.out.println(asd);
         System.out.println(cart.getTotalPrice()+"-"+cart.getCampaignDiscount()+"-"+cart.getCouponDiscount());
 
         DeliveryCostCalculator dc = new DeliveryCostCalculator(10.0, 10.0, 2.99);
