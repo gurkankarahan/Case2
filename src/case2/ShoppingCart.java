@@ -9,7 +9,6 @@ public class ShoppingCart {
     //below map is added to calculate quantitiy and category price. value of hashmap contains of 2 elements. first is quantity, second is total price of category
     private HashMap<Category, Number []> categoryMap;
     private double totalPrice;
-    private double discountedPrice;
     private double campaignDiscount;
     private double couponDiscount;
     private double deliveryCost;
@@ -19,7 +18,6 @@ public class ShoppingCart {
         this.categoryMap = new HashMap<>();
 
         this.totalPrice = 0.0;
-        this.discountedPrice = 0.0;
         this.campaignDiscount = 0.0;
         this.couponDiscount = 0.0;
     }
@@ -34,10 +32,6 @@ public class ShoppingCart {
 
     public double getTotalPrice() {
         return totalPrice;
-    }
-
-    public double getDiscountedPrice() {
-        return discountedPrice;
     }
 
     public double getCampaignDiscount() {
@@ -56,7 +50,9 @@ public class ShoppingCart {
         this.deliveryCost = totalDeliveryCost;
     }
 
+    //products and cumulative quantity are added to hashmap
     public void addItem(Product product, Integer quantity){
+        //addCategory is used to add distinct category to hashmap in order to reduce iterations and ease of calculations
         addCategory(product, quantity);
 
         this.totalPrice = this.totalPrice + product.getPrice() * quantity;
@@ -66,6 +62,7 @@ public class ShoppingCart {
         this.addedProducts.put(product, quantity);
     }
 
+    //category and cumulative quantity and price are added to hashmap
     public void addCategory(Product product, Integer quantity){
         double price = product.getPrice() * quantity;
         if (this.categoryMap.containsKey(product.getCategory())){
@@ -76,6 +73,7 @@ public class ShoppingCart {
         this.categoryMap.put(product.getCategory(), quantityPriceArray);
     }
 
+    //iterate over discounts and find best one
     public void applyDiscounts(Campaign... discounts){
         for (Campaign discount : discounts){
             if (categoryMap.containsKey(discount.getCategory()) && categoryMap.get(discount.getCategory())[0].intValue() >= discount.getQuantity()) {
@@ -84,6 +82,7 @@ public class ShoppingCart {
         }
     }
 
+    //apply best discount to the cart
     public void calculateDiscountByCampaign(Campaign discount){
         if (discount.getDiscountType().equals(DiscountType.AMOUNT)){
             // here discountRate is amount not rate
@@ -128,6 +127,12 @@ public class ShoppingCart {
             it.remove();
             System.out.println(sb.toString());
         }
+        System.out.println("------------------------------");
+        System.out.println("TOTAL AMOUNT BEFORE DISCOUNT : " + getTotalPrice());
+        System.out.println("DISCOUNT BY CAMPAIGN         : " + getCampaignDiscount());
+        System.out.println("DISCOUNT BY COUPON           : " + getCouponDiscount());
+        System.out.println("TOTAL AMOUNT AFTER DISCOUNTS : " + getTotalAmountAfterDiscounts());
+        System.out.println("DELIVERY COST                : " + getDeliveryCost());
     }
 
 }

@@ -1,7 +1,5 @@
 package case2;
 
-import java.util.HashMap;
-
 public class main {
     public static void main(String[] args) {
 
@@ -19,7 +17,7 @@ public class main {
 
         Campaign c1 = new Campaign(category1, 20, 3, DiscountType.RATE);
         Campaign c2 = new Campaign(category1, 10, 3, DiscountType.RATE);
-        Campaign c3 = new Campaign(category1, 500, 3, DiscountType.AMOUNT);
+        Campaign c3 = new Campaign(category1, 50, 3, DiscountType.AMOUNT);
 
         cart.applyDiscounts(c1, c2, c3);
 
